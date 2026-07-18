@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Energy Monitoring</title>
+
+    <style>
+        body{
+            font-family:Arial,sans-serif;
+            background:#f4f8fb;
+            text-align:center;
+        }
+
+        .container{
+            width:450px;
+            margin:50px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        h1{
+            color:#1565c0;
+        }
+
+        .card{
+            background:#f2f2f2;
+            padding:15px;
+            margin:15px;
+            border-radius:8px;
+            font-size:22px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⚡ Smart Energy Monitoring</h1>
+
+<div class="card">
+Voltage :
+<span id="voltage">--</span> V
+</div>
+
+<div class="card">
+Current :
+<span id="current">--</span> A
+</div>
+
+<div class="card">
+Power :
+<span id="power">--</span> W
+</div>
+
+<div class="card">
+Energy :
+<span id="energy">--</span> kWh
+</div>
+
+</div>
+
+<script>
+
+const ip = "http://192.168.1.100";
+
+function updateData()
+{
+    fetch(ip + "/energy")
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("voltage").innerHTML = data.voltage;
+        document.getElementById("current").innerHTML = data.current;
+        document.getElementById("power").innerHTML = data.power;
+        document.getElementById("energy").innerHTML = data.energy;
+
+    });
+}
+
+updateData();
+
+setInterval(updateData,3000);
+
+</script>
+
+</body>
+</html>
