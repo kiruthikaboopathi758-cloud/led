@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Health Monitoring</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#e8f5ff;
+            text-align:center;
+        }
+
+        .container{
+            width:450px;
+            margin:50px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        h1{
+            color:#1565c0;
+        }
+
+        .card{
+            background:#f4f4f4;
+            padding:15px;
+            margin:15px;
+            border-radius:8px;
+            font-size:22px;
+            font-weight:bold;
+        }
+
+        .normal{
+            color:green;
+        }
+
+        .warning{
+            color:red;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>❤️ Patient Health Monitoring</h1>
+
+<div class="card">
+Heart Rate :
+<span id="heart">--</span> BPM
+</div>
+
+<div class="card">
+SpO₂ :
+<span id="spo2">--</span> %
+</div>
+
+<div class="card">
+Body Temperature :
+<span id="temp">--</span> °C
+</div>
+
+<div class="card">
+Status :
+<span id="status" class="normal">Normal</span>
+</div>
+
+</div>
+
+<script>
+
+const ip = "http://192.168.1.100";
+
+function updateData()
+{
+    fetch(ip + "/health")
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("heart").innerHTML = data.heartRate;
+
+        document.getElementById("spo2").innerHTML = data.spo2;
+
+        document.getElementById("temp").innerHTML = data.temperature;
+
+        let status = document.getElementById("status");
+
+        status.innerHTML = data.status;
+
+        status.className =
+        (data.status=="Normal") ? "normal" : "warning";
+
+    });
+}
+
+updateData();
+
+setInterval(updateData,3000);
+
+</script>
+
+</body>
+</html>
