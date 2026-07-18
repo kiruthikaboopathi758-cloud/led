@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT Weather Station</title>
+
+    <style>
+        body{
+            font-family:Arial,sans-serif;
+            background:#d9f3ff;
+            text-align:center;
+        }
+
+        .container{
+            width:400px;
+            margin:50px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0px 0px 10px gray;
+        }
+
+        h1{
+            color:#006699;
+        }
+
+        .card{
+            background:#f4f4f4;
+            padding:15px;
+            margin:15px;
+            border-radius:8px;
+            font-size:22px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌦 Weather Station Dashboard</h1>
+
+<div class="card">
+🌡 Temperature :
+<span id="temp">--</span> °C
+</div>
+
+<div class="card">
+💧 Humidity :
+<span id="hum">--</span> %
+</div>
+
+<div class="card">
+🌬 Pressure :
+<span id="pressure">--</span> hPa
+</div>
+
+<div class="card">
+🌧 Rainfall :
+<span id="rain">--</span> mm
+</div>
+
+</div>
+
+<script>
+
+const ip = "http://192.168.1.100";
+
+function updateData()
+{
+    fetch(ip + "/weather")
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("temp").innerHTML = data.temperature;
+        document.getElementById("hum").innerHTML = data.humidity;
+        document.getElementById("pressure").innerHTML = data.pressure;
+        document.getElementById("rain").innerHTML = data.rainfall;
+
+    });
+}
+
+updateData();
+
+setInterval(updateData,3000);
+
+</script>
+
+</body>
+</html>
